@@ -2,7 +2,7 @@
 export GO111MODULE=on
 
 SERVICE_NAME=catalog
-SERVICE_PATH=gotem2006/vitalmebel/catalog
+SERVICE_PATH=gotem2006/vitalmebel-catalog/catalog
 
 
 .PHONY:

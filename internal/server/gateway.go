@@ -9,10 +9,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	pb "github.com/gotem2006/vitalmebel/catalog/pkg/catalog"
+	pb "github.com/gotem2006/vitalmebel-catalog/pkg/catalog"
 )
-
-
 
 func createGatewayServer(grpcAddr, gatewayAddr string) *http.Server {
 	conn, err := grpc.NewClient(
@@ -36,5 +34,3 @@ func createGatewayServer(grpcAddr, gatewayAddr string) *http.Server {
 
 	return gatewayServer
 }
-
-

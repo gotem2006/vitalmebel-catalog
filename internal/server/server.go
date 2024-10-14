@@ -24,11 +24,11 @@ import (
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 
-	"github.com/gotem2006/vitalmebel/catalog/internal/api"
-	"github.com/gotem2006/vitalmebel/catalog/internal/config"
-	"github.com/gotem2006/vitalmebel/catalog/internal/repo"
-	"github.com/gotem2006/vitalmebel/catalog/internal/service"
-	pb "github.com/gotem2006/vitalmebel/catalog/pkg/catalog"
+	"github.com/gotem2006/vitalmebel-catalog/internal/api"
+	"github.com/gotem2006/vitalmebel-catalog/internal/config"
+	"github.com/gotem2006/vitalmebel-catalog/internal/repo"
+	"github.com/gotem2006/vitalmebel-catalog/internal/service"
+	pb "github.com/gotem2006/vitalmebel-catalog/pkg/catalog"
 )
 
 type GrpcServer struct {
@@ -47,7 +47,6 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 
 	gatewayAddr := fmt.Sprintf("%s:%v", cfg.Rest.Host, cfg.Rest.Port)
 	grpcAddr := fmt.Sprintf("%s:%v", cfg.Grpc.Host, cfg.Grpc.Port)
-	
 
 	gatewayServer := createGatewayServer(grpcAddr, gatewayAddr)
 
@@ -59,12 +58,9 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		}
 	}()
 
-	
-
 	isReady := &atomic.Value{}
 	isReady.Store(false)
 
-	
 	l, err := net.Listen("tcp", grpcAddr)
 	if err != nil {
 		return fmt.Errorf("failed to listen: %w", err)
@@ -128,7 +124,6 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 	} else {
 		log.Info().Msg("gatewayServer shut down correctly")
 	}
-
 
 	grpcServer.GracefulStop()
 	log.Info().Msgf("grpcServer shut down correctly")
