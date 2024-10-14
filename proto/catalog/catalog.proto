@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+
+package catalog;
+
+
+import "google/api/annotations.proto";
+
+option go_package="pkg/catalog;catalog";
+
+
+
+service CatalogService{
+    rpc GetProduct(GetProductRequest) returns (GetProductResponse){
+        option (google.api.http) = {
+            post: "/GetProduct",
+            body: "*"
+        };
+    }
+    rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse){
+        option (google.api.http) = {
+            post: "/CreateProduct",
+            body: "*"
+        };
+    }
+    rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse){
+        option (google.api.http) = {
+            post: "/CreateProduct",
+            body: "*"
+        };
+    }
+    rpc PatchProduct(PatchProductRequest) returns (PatchProductResponse){
+        option (google.api.http) = {
+            post: "/CreateProduct",
+            body: "*"
+        };
+    }
+}
+
+
+message GetProductResponse{
+    repeated Product products = 1;
+}
+
+
+
+message Product{
+    int64 product_id = 1;
+    string tittle = 2;
+    float cost = 3;
+    repeated string images_url = 4;
+    int64 amount = 5;
+    string desc = 6;
+}
+
+message GetProductRequest{
+    int64 offset = 1;
+    int64 limmit = 2;
+    float lt = 3;
+    float gt = 4;
+    repeated int64 cat_ids = 5;
+}
+
+message CreateProductRequest{
+    string tittle = 2;
+    float cost = 3;
+    repeated Image images = 4;
+    int64 amount = 5;
+    string desc = 6;
+}
+
+
+message Image{
+    string filename = 1;
+    bytes image_bytes = 2;
+}
+
+message CreateProductResponse{
+    Product res = 1;
+}
+
+
+message PatchProductRequest{
+    Product changed_product = 1;
+}
+
+message PatchProductResponse{
+    Product res = 1;
+    bool visability = 2; 
+}
+
+
+message DeleteProductResponse{
+    int64 product_id = 1;
+}
+
+message DeleteProductRequest{
+    
+}

@@ -1,0 +1,260 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "catalog/catalog.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "CatalogService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/CreateProduct": {
+      "post": {
+        "operationId": "CatalogService_PatchProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/catalogPatchProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/catalogPatchProductRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CatalogService"
+        ]
+      }
+    },
+    "/GetProduct": {
+      "post": {
+        "operationId": "CatalogService_GetProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/catalogGetProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/catalogGetProductRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CatalogService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "catalogCreateProductRequest": {
+      "type": "object",
+      "properties": {
+        "tittle": {
+          "type": "string"
+        },
+        "cost": {
+          "type": "number",
+          "format": "float"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/catalogImage"
+          }
+        },
+        "amount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "desc": {
+          "type": "string"
+        }
+      }
+    },
+    "catalogCreateProductResponse": {
+      "type": "object",
+      "properties": {
+        "res": {
+          "$ref": "#/definitions/catalogProduct"
+        }
+      }
+    },
+    "catalogDeleteProductRequest": {
+      "type": "object"
+    },
+    "catalogDeleteProductResponse": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "catalogGetProductRequest": {
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "string",
+          "format": "int64"
+        },
+        "limmit": {
+          "type": "string",
+          "format": "int64"
+        },
+        "lt": {
+          "type": "number",
+          "format": "float"
+        },
+        "gt": {
+          "type": "number",
+          "format": "float"
+        },
+        "catIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "catalogGetProductResponse": {
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/catalogProduct"
+          }
+        }
+      }
+    },
+    "catalogImage": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string"
+        },
+        "imageBytes": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "catalogPatchProductRequest": {
+      "type": "object",
+      "properties": {
+        "changedProduct": {
+          "$ref": "#/definitions/catalogProduct"
+        }
+      }
+    },
+    "catalogPatchProductResponse": {
+      "type": "object",
+      "properties": {
+        "res": {
+          "$ref": "#/definitions/catalogProduct"
+        },
+        "visability": {
+          "type": "boolean"
+        }
+      }
+    },
+    "catalogProduct": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "tittle": {
+          "type": "string"
+        },
+        "cost": {
+          "type": "number",
+          "format": "float"
+        },
+        "imagesUrl": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "amount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "desc": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
