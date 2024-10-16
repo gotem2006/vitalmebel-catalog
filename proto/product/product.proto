@@ -1,16 +1,16 @@
 syntax = "proto3";
 
 
-package catalog;
+package product;
 
 
 import "google/api/annotations.proto";
 
-option go_package="pkg/catalog;catalog";
+option go_package="pkg/product;product";
 
 
 
-service CatalogService{
+service ProductService{
     rpc GetProduct(GetProductRequest) returns (GetProductResponse){
         option (google.api.http) = {
             post: "/GetProduct",
@@ -25,13 +25,13 @@ service CatalogService{
     }
     rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse){
         option (google.api.http) = {
-            post: "/CreateProduct",
+            post: "/DeleteProduct",
             body: "*"
         };
     }
     rpc PatchProduct(PatchProductRequest) returns (PatchProductResponse){
         option (google.api.http) = {
-            post: "/CreateProduct",
+            post: "/PatchProduct",
             body: "*"
         };
     }
@@ -54,19 +54,12 @@ message Product{
 }
 
 message GetProductRequest{
-    int64 offset = 1;
-    int64 limmit = 2;
-    float lt = 3;
-    float gt = 4;
-    repeated int64 cat_ids = 5;
+    int64 ProductId = 1;
 }
 
+
 message CreateProductRequest{
-    string tittle = 2;
-    float cost = 3;
-    repeated Image images = 4;
-    int64 amount = 5;
-    string desc = 6;
+    Product product = 1;
 }
 
 
@@ -91,9 +84,9 @@ message PatchProductResponse{
 
 
 message DeleteProductResponse{
-    int64 product_id = 1;
+    
 }
 
 message DeleteProductRequest{
-    
+    int64 product_id = 1;
 }

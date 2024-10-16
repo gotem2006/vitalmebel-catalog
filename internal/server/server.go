@@ -21,14 +21,11 @@ import (
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpcrecovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
-	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
-	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 
-	"github.com/gotem2006/vitalmebel-catalog/internal/api"
-	"github.com/gotem2006/vitalmebel-catalog/internal/config"
-	"github.com/gotem2006/vitalmebel-catalog/internal/repo"
-	"github.com/gotem2006/vitalmebel-catalog/internal/service"
-	pb "github.com/gotem2006/vitalmebel-catalog/pkg/catalog"
+	"github.com/gotem2006/vitalmebel-product/internal/api"
+	"github.com/gotem2006/vitalmebel-product/internal/config"
+	"github.com/gotem2006/vitalmebel-product/internal/repo"
+	pb "github.com/gotem2006/vitalmebel-product/pkg/product"
 )
 
 type GrpcServer struct {
@@ -76,19 +73,14 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		}),
 		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
 			grpc_ctxtags.UnaryServerInterceptor(),
-			grpc_prometheus.UnaryServerInterceptor,
-			grpc_opentracing.UnaryServerInterceptor(),
 			grpcrecovery.UnaryServerInterceptor(),
 		)),
 	)
 
 	r := repo.NewRepo(s.db)
 
-	service := service.NewService(r)
 
-	pb.RegisterCatalogServiceServer(grpcServer, api.NewCatalogService(service))
-	grpc_prometheus.EnableHandlingTimeHistogram()
-	grpc_prometheus.Register(grpcServer)
+	pb.RegisterProductServiceServer(grpcServer, api.NewProductApi(r))
 
 	go func() {
 		log.Info().Msgf("GRPC Server is listening on: %s", grpcAddr)

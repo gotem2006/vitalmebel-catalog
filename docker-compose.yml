@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  swagger-ui:
+      image: swaggerapi/swagger-ui
+      ports:
+        - 8081:8080
+      restart: always
+      volumes:
+        - ./swagger:/swagger
+      environment:
+        SWAGGER_JSON: /swagger/proto/product/product.swagger.json
+      networks:
+        - product
+  postgres:
+    image: postgres:latest
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    logging:
+      driver: 'gelf'
+      options:
+        gelf-address: 'udp://localhost:12201'
+        tag: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: catalog
+      APP_DB_USER: docker
+      APP_DB_PASS: docker
+    networks:
+      - product
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+networks:
+  product:
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local

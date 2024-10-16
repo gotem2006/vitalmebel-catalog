@@ -1,25 +1,5 @@
 version: v1
 plugins:
-  - name: go
-    out: pkg/catalog
-    opt:
-      - paths=import
-    strategy: directory
-
-  - name: go-grpc
-    out: pkg/catalog
-    opt:
-      - paths=import
-    strategy: directory
-
-  - name: grpc-gateway
-    out: pkg/catalog
-    opt:
-      - logtostderr=true
-      - paths=import
-    strategy: directory
-
-
   - name: openapiv2
     path: protoc-gen-openapiv2
     out: swagger

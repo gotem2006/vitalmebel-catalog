@@ -1,20 +1,20 @@
 
 export GO111MODULE=on
 
-SERVICE_NAME=catalog
-SERVICE_PATH=gotem2006/vitalmebel-catalog/catalog
+SERVICE_NAME=product
+SERVICE_PATH=gotem2006/vitalmebel-product/product
 
 
 .PHONY:
 generate:
-	protoc --go_out=pkg/catalog \
-		--go-grpc_out pkg/catalog --go-grpc_opt paths=source_relative  \
-		--grpc-gateway_out  pkg/catalog  --grpc-gateway_opt paths=source_relative \
-		--openapiv2 swagger 
-		proto/catalog/catalog.proto  
-	mv pkg/catalog/proto/catalog/catalog_grpc.pb.go pkg/catalog/
-	mv pkg/catalog/proto/catalog/catalog.pb.gw.go pkg/catalog/
-	rmdir -p pkg/catalog/proto/catalog 
+	protoc --go_out=pkg/product \
+		--go-grpc_out pkg/product --go-grpc_opt paths=source_relative  \
+		--grpc-gateway_out  pkg/product  --grpc-gateway_opt paths=source_relative \
+		--openapiv2_out swagger --openapiv2_opt logtostderr=true \
+		proto/product/product.proto  
+	mv pkg/product/proto/product/product_grpc.pb.go pkg/product/
+	mv pkg/product/proto/product/product.pb.gw.go pkg/product/
+	rmdir -p pkg/product/proto/product 
 	
 .PHONY:
 generatemocks:

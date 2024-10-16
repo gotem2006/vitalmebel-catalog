@@ -1,13 +1,16 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "catalog/catalog.proto",
+    "title": "proto/product/product.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "CatalogService"
+      "name": "ProductService"
     }
+  ],
+  "host":[
+    "0.0.0.0:8080"
   ],
   "consumes": [
     "application/json"
@@ -18,12 +21,12 @@
   "paths": {
     "/CreateProduct": {
       "post": {
-        "operationId": "CatalogService_PatchProduct",
+        "operationId": "ProductService_CreateProduct",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/catalogPatchProductResponse"
+              "$ref": "#/definitions/productCreateProductResponse"
             }
           },
           "default": {
@@ -39,23 +42,55 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/catalogPatchProductRequest"
+              "$ref": "#/definitions/productCreateProductRequest"
             }
           }
         ],
         "tags": [
-          "CatalogService"
+          "ProductService"
+        ]
+      }
+    },
+    "/DeleteProduct": {
+      "post": {
+        "operationId": "ProductService_DeleteProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/productDeleteProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/productDeleteProductRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ProductService"
         ]
       }
     },
     "/GetProduct": {
       "post": {
-        "operationId": "CatalogService_GetProduct",
+        "operationId": "ProductService_GetProduct",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/catalogGetProductResponse"
+              "$ref": "#/definitions/productGetProductResponse"
             }
           },
           "default": {
@@ -71,54 +106,66 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/catalogGetProductRequest"
+              "$ref": "#/definitions/productGetProductRequest"
             }
           }
         ],
         "tags": [
-          "CatalogService"
+          "ProductService"
+        ]
+      }
+    },
+    "/PatchProduct": {
+      "post": {
+        "operationId": "ProductService_PatchProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/productPatchProductResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/productPatchProductRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ProductService"
         ]
       }
     }
   },
   "definitions": {
-    "catalogCreateProductRequest": {
+    "productCreateProductRequest": {
       "type": "object",
       "properties": {
-        "tittle": {
-          "type": "string"
-        },
-        "cost": {
-          "type": "number",
-          "format": "float"
-        },
-        "images": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/catalogImage"
-          }
-        },
-        "amount": {
-          "type": "string",
-          "format": "int64"
-        },
-        "desc": {
-          "type": "string"
+        "product": {
+          "$ref": "#/definitions/productProduct"
         }
       }
     },
-    "catalogCreateProductResponse": {
+    "productCreateProductResponse": {
       "type": "object",
       "properties": {
         "res": {
-          "$ref": "#/definitions/catalogProduct"
+          "$ref": "#/definitions/productProduct"
         }
       }
     },
-    "catalogDeleteProductRequest": {
-      "type": "object"
-    },
-    "catalogDeleteProductResponse": {
+    "productDeleteProductRequest": {
       "type": "object",
       "properties": {
         "productId": {
@@ -127,77 +174,49 @@
         }
       }
     },
-    "catalogGetProductRequest": {
+    "productDeleteProductResponse": {
+      "type": "object"
+    },
+    "productGetProductRequest": {
       "type": "object",
       "properties": {
-        "offset": {
+        "ProductId": {
           "type": "string",
           "format": "int64"
-        },
-        "limmit": {
-          "type": "string",
-          "format": "int64"
-        },
-        "lt": {
-          "type": "number",
-          "format": "float"
-        },
-        "gt": {
-          "type": "number",
-          "format": "float"
-        },
-        "catIds": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "int64"
-          }
         }
       }
     },
-    "catalogGetProductResponse": {
+    "productGetProductResponse": {
       "type": "object",
       "properties": {
         "products": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/catalogProduct"
+            "$ref": "#/definitions/productProduct"
           }
         }
       }
     },
-    "catalogImage": {
-      "type": "object",
-      "properties": {
-        "filename": {
-          "type": "string"
-        },
-        "imageBytes": {
-          "type": "string",
-          "format": "byte"
-        }
-      }
-    },
-    "catalogPatchProductRequest": {
+    "productPatchProductRequest": {
       "type": "object",
       "properties": {
         "changedProduct": {
-          "$ref": "#/definitions/catalogProduct"
+          "$ref": "#/definitions/productProduct"
         }
       }
     },
-    "catalogPatchProductResponse": {
+    "productPatchProductResponse": {
       "type": "object",
       "properties": {
         "res": {
-          "$ref": "#/definitions/catalogProduct"
+          "$ref": "#/definitions/productProduct"
         },
         "visability": {
           "type": "boolean"
         }
       }
     },
-    "catalogProduct": {
+    "productProduct": {
       "type": "object",
       "properties": {
         "productId": {
